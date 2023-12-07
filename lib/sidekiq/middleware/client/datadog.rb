@@ -32,8 +32,8 @@ module Sidekiq
         # * <tt>:statsd_port</tt> - the statsD port, defaults to 8125, respects +STATSD_PORT+ env variable
         # * <tt>:statsd</tt>      - custom statsd instance
         def initialize(opts = {})
-          statsd_host = opts[:statsd_host] || ENV['STATSD_HOST'] || 'localhost'
-          statsd_port = (opts[:statsd_port] || ENV['STATSD_PORT'] || 8125).to_i
+          statsd_host = opts[:statsd_host] || ENV.fetch('STATSD_HOST', 'localhost')
+          statsd_port = (opts[:statsd_port] || ENV.fetch('STATSD_PORT', 8125)).to_i
 
           @metric_name  = opts[:metric_name] || 'sidekiq.job_enqueued'
           @statsd       = opts[:statsd] || ::Datadog::Statsd.new(statsd_host, statsd_port)
