@@ -6,12 +6,14 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: "2.5"
+  TargetRubyVersion: '2.6'
+
 
 Metrics/ParameterLists:
   Max: 8
 Naming/FileName:
   Exclude:
     - lib/sidekiq-datadog.rb
+
 RSpec/MultipleMemoizedHelpers:
   Enabled: false

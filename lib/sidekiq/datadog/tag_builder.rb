@@ -5,8 +5,8 @@ module Sidekiq
         @tags = Array(custom_tags)
         @skip_tags = Array(skip_tags).map(&:to_s)
 
-        env  = Sidekiq.options[:environment] || ENV['RACK_ENV']
-        host = custom_hostname || ENV['INSTRUMENTATION_HOSTNAME'] || Socket.gethostname
+        env  = Sidekiq.options[:environment] || ENV.fetch('RACK_ENV', nil)
+        host = custom_hostname || ENV.fetch('INSTRUMENTATION_HOSTNAME', Socket.gethostname)
         setup_defaults(host: host, env: env)
       end
 
@@ -64,7 +64,7 @@ module Sidekiq
       end
 
       def underscore(word)
-        word = word.to_s.gsub(/::/, '/')
+        word = word.to_s.gsub('::', '/')
         word.gsub!(/([A-Z\d]+)([A-Z][a-z])/, '\1_\2')
         word.gsub!(/([a-z\d])([A-Z])/, '\1_\2')
         word.tr!('-', '_')
