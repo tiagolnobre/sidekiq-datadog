@@ -65,7 +65,7 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
-    timecop (0.9.4)
+    timecop (0.9.8)
     unicode-display_width (2.5.0)
 
 PLATFORMS
