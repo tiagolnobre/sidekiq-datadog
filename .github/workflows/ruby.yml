@@ -5,7 +5,7 @@
 # This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
 # For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Ruby
+name: CI
 
 on:
   push:
@@ -17,14 +17,37 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  rubocop:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ['2.7']
+        gemfile: [ Gemfile]
+    env: 
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - uses: reviewdog/action-rubocop@v1
+        with:
+          filter_mode: nofilter
+          reporter: github-pr-review
+          rubocop_version: gemfile
+          github_token: ${{ secrets.github_token }}
+          rubocop_flags: --config .rubocop.yml
 
+
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         ruby-version: ['2.6', '2.7', '3.0', '3.1', '3.2']
         gemfile: [ Gemfile, Gemfile_dogstats_v4]
-    env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
+    env: 
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
     - uses: actions/checkout@v3
@@ -37,4 +60,4 @@ jobs:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Run tests
-      run: bundle exec rake
+      run: bundle exec rspec
