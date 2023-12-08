@@ -17,8 +17,8 @@ describe Sidekiq::Middleware::Client::Datadog do
   it 'sends an increment event for each job enqueued' do
     subject.call(worker_class, {}, 'default', nil) { 'ok' }
     expect(statsd.messages).to eq([
-      'sidekiq.job_enqueued:1|c|#custom:tag,worker:oc,host:test.host,env:test,name:mock/worker,'\
-        'queue:default',
+      'sidekiq.job_enqueued:1|c|#custom:tag,worker:oc,host:test.host,env:test,name:mock/worker,' \
+      'queue:default',
     ])
   end
 
@@ -38,8 +38,8 @@ describe Sidekiq::Middleware::Client::Datadog do
       subject.call(worker_class, { 'args' => [1, 2] }, 'default', nil) { 'ok' }
 
       expect(statsd.messages).to eq([
-        'sidekiq.job_enqueued:1|c|#custom:tag,arg:1,arg:2,host:test.host,env:test,name:mock/worker,'\
-          'queue:default',
+        'sidekiq.job_enqueued:1|c|#custom:tag,arg:1,arg:2,host:test.host,env:test,name:mock/worker,' \
+        'queue:default',
       ])
     end
   end

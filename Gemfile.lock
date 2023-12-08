@@ -3,7 +3,7 @@ PATH
   specs:
     sidekiq-datadog (0.6.0)
       dogstatsd-ruby (>= 4.2.0)
-      sidekiq
+      sidekiq (>= 6.4.0)
 
 GEM
   remote: https://rubygems.org/
