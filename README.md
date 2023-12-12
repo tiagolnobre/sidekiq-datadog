@@ -3,6 +3,12 @@ sidekiq-datadog
 
 Datadog instrumentation for [Sidekiq](https://github.com/mperham/sidekiq), integrated via server middleware.
 
+Changes made from the original version:
+
+- Bump dogstatsd-ruby dependency to `>= 5.6.0`
+- Bump sidekiq dependency to `>= 6.4.0`
+- Support sidekiq 7 options configuration options
+
 ## Installation
 
 Add this line to your application's Gemfile:
